@@ -5,28 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dca5ff13-0f9e-442b-8797-824ffd089b0e" name="Changes" comment="initial commit">
-      <change afterPath="$PROJECT_DIR$/assets/icons/angry_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/app_logo.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/care_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/comment_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/comment_icon_filled.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/comment_send_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/community_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/haha_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/like_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/like_icon2.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/logout_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/love_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/love_react2_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/sad_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/three_dot_icon.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/user_icon_rounded.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/user_icon_square.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/assets/icons/wow_icon.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/core/entities/feed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_SDK.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/fileHashes.bin" afterDir="false" />
@@ -36,10 +21,23 @@
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/local.properties" beforeDir="false" afterPath="$PROJECT_DIR$/android/local.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.h" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/entities/post.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/repositories/post_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/repositories/post_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/usecases/post_usecases.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/usecases/post_usecases.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/infrastructure/datasources/local/preferences.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_endpoints.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_endpoints.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/infrastructure/repositories/post_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/infrastructure/repositories/post_repository_impl.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/auth/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/auth/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/feed/feed_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/feed/feed_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/intro/intro_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/intro/intro_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/viewmodels/auth_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/viewmodels/auth_viewmodel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/viewmodels/feed_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/viewmodels/feed_viewmodel.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/utils/PrefUtils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/infrastructure/datasources/local/PrefUtils.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,21 +57,21 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "dipdas123"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;dipdas123&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/dipdas123/ezy_course.git",
-    "accountId": "4dc56db4-9185-4e24-b96d-0e1961b13a76"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/dipdas123/ezy_course.git&quot;,
+    &quot;accountId&quot;: &quot;a1669695-54fd-41a1-b210-e1a0042116b1&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2sFT22KBWkxkVcAf7Ak2lQhjOQz" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -83,33 +81,34 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Flutter.main.dart.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "RunOnceActivity.readMode.enableVisualFormatting": "true",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "io.flutter.reload.alreadyRun": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/Android_Studio_Projects/android_studio_flutter_projects/Job Task Projects/ezycourse/lib/presentation/widgets",
-    "settings.editor.selected.configurable": "dart.settings",
-    "show.migrate.to.gradle.popup": "false"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;development&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Out_Projects/ezy_course/lib/providers&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Out_Projects\ezy_course\lib\providers" />
       <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\presentation\widgets" />
       <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\utils" />
       <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\assets\backgrounds" />
       <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\presentation\screens\intro" />
-      <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\assets\icons" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Out_Projects\ezy_course\lib\presentation\widgets" />
       <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\providers\api" />
     </key>
   </component>

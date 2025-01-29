@@ -1,13 +1,11 @@
+import 'package:ezycourse/presentation/viewmodels/feed_viewmodel.dart';
 import 'package:ezycourse/presentation/widgets/primary_button.dart';
 import 'package:ezycourse/utils/asset_constants.dart';
 import 'package:ezycourse/utils/string_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
-import '../../../utils/PrefUtils.dart';
-import '../../../utils/app_logs.dart';
 import '../../../utils/size_config.dart';
-import '../../viewmodels/auth_viewmodel.dart';
+import '../../widgets/PostCard.dart';
 
 class FeedScreen extends ConsumerStatefulWidget {
   const FeedScreen({super.key});
@@ -26,6 +24,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = ref.watch(feedViewModelProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -34,7 +33,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {
-
+              ref.read(feedViewModelProvider.notifier).getFeed();
             },
           ),
           IconButton(
@@ -97,77 +96,9 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
             ),
           ),
 
-          for (int i = 0; i < 10; i++) PostCard(),
+          ...(provider.value ?? []).map((feed) => PostCardWidget(feed: feed)),
 
         ],
-      ),
-    );
-  }
-}
-
-class PostCard extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // User Info
-            const Row(
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundImage: NetworkImage('https://via.placeholder.com/150'), // Replace with user's profile image
-                ),
-                SizedBox(width: 10),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text('User  Name', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('2 hours ago', style: TextStyle(color: Colors.grey)),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 10),
-
-            const Text('This is a sample post content. It can be text, images, or videos.'),
-            const SizedBox(height: 10),
-            // Engagement Buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Row(
-                  children: [
-                    IconButton(
-                      icon: const Icon(Icons.thumb_up),
-                      onPressed: () {
-                        // Handle like
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.comment),
-                      onPressed: () {
-                        // Handle comment
-                      },
-                    ),
-                    IconButton(
-                      icon: const Icon(Icons.share),
-                      onPressed: () {
-                        // Handle share
-                      },
-                    ),
-                  ],
-                ),
-                const Text('100 likes', style: TextStyle(color: Colors.grey)),
-              ],
-            ),
-          ],
-        ),
       ),
     );
   }

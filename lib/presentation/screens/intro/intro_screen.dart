@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import '../../../utils/PrefUtils.dart';
+import '../../../infrastructure/datasources/local/PrefUtils.dart';
 import '../../../utils/app_logs.dart';
 import '../../../utils/asset_constants.dart';
 import '../auth/login_screen.dart';

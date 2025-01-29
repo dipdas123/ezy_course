@@ -1,9 +1,9 @@
 import 'package:ezycourse/presentation/screens/feed/feed_screen.dart';
-import 'package:ezycourse/utils/PrefUtils.dart';
 import 'package:ezycourse/utils/extensions/string_extension.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/route_manager.dart';
 import '../../core/usecases/auth_usecases.dart';
+import '../../infrastructure/datasources/local/PrefUtils.dart';
 import '../../providers/auth/auth_provider.dart';
 
 final authViewModelProvider = StateNotifierProvider.autoDispose<AuthViewModel, AsyncValue<String?>>((ref) {
