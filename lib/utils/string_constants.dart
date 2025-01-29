@@ -13,4 +13,17 @@ class StringConfig{
 
   static var post = "Post";
 
+  static var addBackground = "Add Background";
+
+  static var noReactionsYet = "0 Reacts";
+  static var noCommentsYet = "0 Comments";
+  static var noSharesYet = "0 Shares";
+
+  static var comments = "Comments";
+  static var comment = "Comment";
+
+  static var shares = "Shares";
+
+  static String like = "  Like";
+
   }

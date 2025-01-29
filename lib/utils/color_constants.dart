@@ -10,7 +10,7 @@ class ColorConfig {
   static const Color textColorPrimary = Color(0xFF000000);
   static const Color textColorSecondary = Color(0xFF989898);
 
-  static const Color backgroundColorPrimary = Color(0xffF2F4F7);
+  static const Color backgroundColorPrimary = Color(0xffF3F3F3);
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color blackColor = Color(0xFF000000);
   static const Color redColor = Color(0xFFFF0000);

@@ -24,9 +24,7 @@ class FeedRepositoryImpl implements FeedRepository {
       );
 
       if (response.statusCode == 200 && response.data is List) {
-        return (response.data as List)
-            .map((item) => Feed.fromJson(item))
-            .toList();
+        return (response.data as List).map((item) => Feed.fromJson(item)).toList();
       }
     } on DioException catch (e) {
       if (e.response != null) {
