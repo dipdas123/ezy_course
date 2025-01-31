@@ -12,7 +12,7 @@ class Feed {
   final String? activityType;
   final int? isPinned;
   final String? fileType;
-  final List<dynamic>? files;
+  final List<File>? files;
   final int? likeCount;
   final int? commentCount;
   final int? shareCount;
@@ -117,7 +117,9 @@ class Feed {
     activityType: json['activity_type'] as String?,
     isPinned: json['is_pinned'] as int?,
     fileType: json['file_type'] as String?,
-    files: json['files'] as List<dynamic>?,
+    files: json['files'] != null
+        ? (json['files'] as List).map((e) => File.fromJson(e)).toList()
+        : null,
     likeCount: json['like_count'] as int?,
     commentCount: json['comment_count'] as int?,
     shareCount: json['share_count'] as int?,
@@ -178,7 +180,7 @@ class Feed {
     'activity_type': activityType,
     'is_pinned': isPinned,
     'file_type': fileType,
-    'files': files,
+    'files': files?.map((e) => e.toJson()).toList(),
     'like_count': likeCount,
     'comment_count': commentCount,
     'share_count': shareCount,
@@ -348,4 +350,40 @@ class Meta {
   Map<String, dynamic> toJson() => {
     'views': views,
   };
+}
+
+class File {
+  final String? fileLoc;
+  final String? originalName;
+  final String? extname;
+  final String? type;
+  final int? size;
+
+  File({
+    this.fileLoc,
+    this.originalName,
+    this.extname,
+    this.type,
+    this.size,
+  });
+
+  factory File.fromJson(Map<String, dynamic> json) {
+    return File(
+      fileLoc: json['fileLoc'] as String?,
+      originalName: json['originalName'] as String?,
+      extname: json['extname'] as String?,
+      type: json['type'] as String?,
+      size: json['size'] as int?,
+    );
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'fileLoc': fileLoc,
+      'originalName': originalName,
+      'extname': extname,
+      'type': type,
+      'size': size,
+    };
+  }
 }

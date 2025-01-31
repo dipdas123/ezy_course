@@ -26,4 +26,12 @@ class StringConfig{
 
   static String like = "  Like";
 
+  static String liked = "  Liked";
+
+  static String noRepliesYet = "No replies yet.";
+
+  static String privacy = "Privacy";
+
+  static String createPost = "Create Post";
+
   }

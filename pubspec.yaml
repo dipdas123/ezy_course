@@ -42,6 +42,8 @@ dependencies:
   hive: ^2.2.3
   path_provider: ^2.0.15
   get: ^4.6.6
+  audioplayers: ^6.1.1
+  image_picker: ^1.1.2
 
 
 
@@ -72,6 +74,8 @@ flutter:
   assets:
     - assets/icons/
     - assets/backgrounds/
+    - assets/gif/
+    - assets/mp3/
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

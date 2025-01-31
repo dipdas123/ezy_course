@@ -17,6 +17,11 @@ class ColorConfig {
   static const Color greyColor = Color(0xFF9E9E9E);
   static const Color greenColor = Color(0xff008000);
 
-  static var hintColor = Color(0xff5b5b5b);
+  static const Color hintColor = Color(0xff5b5b5b);
+
+  // static var feedsBGColor = greyColor.withOpacity(0.12);
+  static const Color feedsBGColor = whiteColor;
+
+  static const Color blueColor = Color(0xff0000FF);
 
 }

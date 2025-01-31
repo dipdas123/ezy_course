@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../utils/asset_constants.dart';
 import '../../viewmodels/auth_viewmodel.dart';
+import '../../widgets/common_widgets.dart';
 import '../../widgets/custom_textfield.dart';
 
 class LoginScreen extends ConsumerWidget {
@@ -137,18 +138,8 @@ class LoginScreen extends ConsumerWidget {
                     ),
 
                     const SizedBox(height: 50),
-                    if (authState.isLoading) Container(
-                      height: getProportionateScreenHeight(25),
-                      alignment: Alignment.center,
-                      child: SizedBox(
-                        height: getProportionateScreenHeight(25),
-                        width: getProportionateScreenWidth(25),
-                        child: const CircularProgressIndicator(
-                          strokeWidth: 6.0,
-                          valueColor: AlwaysStoppedAnimation<Color>(ColorConfig.primaryColorLite),
-                        ),
-                      ),
-                    )
+                    if (authState.isLoading)
+                      getLoader()
                     else PrimaryButton(
                         btnText: StringConfig.login,
                         btnTextColor: ColorConfig.primaryColor,

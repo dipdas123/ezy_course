@@ -18,7 +18,7 @@ class ApiClient {
     ));
   }
 
-  Future<Response> postRequest({required String endpoint, Map<String, dynamic>? data, Map<String, dynamic>? query}) async {
+  Future<Response> postRequest({required String endpoint, dynamic data, Map<String, dynamic>? query}) async {
     final response = await _dio.post(endpoint, data: data, queryParameters: query, options: Options(
       headers: {
         "Authorization" : await PrefUtils.getToken(),

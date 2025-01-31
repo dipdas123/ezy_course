@@ -5,23 +5,50 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dca5ff13-0f9e-442b-8797-824ffd089b0e" name="Changes" comment="initial commit">
+      <change beforePath="$PROJECT_DIR$/.flutter-plugins" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Flutter_Plugins.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/other.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/other.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/checksums/checksums.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/7.6.3/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/android/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/android/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" beforeDir="false" afterPath="$PROJECT_DIR$/android/app/src/main/java/io/flutter/plugins/GeneratedPluginRegistrant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/android/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/android/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/Generated.xcconfig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Flutter/flutter_export_environment.sh" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" beforeDir="false" afterPath="$PROJECT_DIR$/ios/Runner/GeneratedPluginRegistrant.m" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/entities/comment.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/entities/comment.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/entities/feed.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/entities/feed.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/entities/reaction.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/repositories/post_repository.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/repositories/post_repository.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/repositories/user_repository.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/usecases/post_usecases.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/core/usecases/post_usecases.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/core/usecases/user_usecases.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_client.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_client.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_endpoints.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/infrastructure/datasources/remote/api_endpoints.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/infrastructure/repositories/post_repository_impl.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/infrastructure/repositories/post_repository_impl.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/feed/create_post_Screeen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/feed/create_post_Screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/infrastructure/repositories/user_repository_impl.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/auth/login_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/auth/login_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/screens/feed/create_post_Screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/feed/create_post_Screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/presentation/screens/feed/feed_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/screens/feed/feed_screen.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/presentation/viewmodels/feed_viewmodel.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/viewmodels/feed_viewmodel.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/presentation/widgets/PostCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/widgets/PostCard.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/viewmodels/post_viewmodel.dart" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/widgets/PostCard.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/widgets/post_card_widget.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/presentation/widgets/ReactionDragger.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/presentation/widgets/ReactionDragger.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/utils/asset_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/asset_constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/utils/color_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/color_constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/utils/string_constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/string_constants.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/utils/style_utils.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/utils/style_utils.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -78,21 +105,23 @@
     &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
     &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Out_Projects/ezy_course/lib/providers&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Out_Projects/ezy_course/lib/core/entities&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;dart.settings&quot;,
     &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
   }
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\Out_Projects\ezy_course\assets\mp3" />
+      <recent name="D:\Out_Projects\ezy_course\assets\gif" />
+      <recent name="D:\Out_Projects\ezy_course\assets\icons" />
       <recent name="D:\Out_Projects\ezy_course\lib\providers" />
       <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\presentation\widgets" />
-      <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\utils" />
-      <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\assets\backgrounds" />
-      <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\presentation\screens\intro" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Out_Projects\ezy_course\lib\core\entities" />
       <recent name="D:\Out_Projects\ezy_course\lib\presentation\widgets" />
+      <recent name="D:\Out_Projects\ezy_course\assets\icons" />
       <recent name="D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse\lib\providers\api" />
     </key>
   </component>
@@ -135,7 +164,15 @@
       <option name="project" value="LOCAL" />
       <updated>1738159133264</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="initial commit">
+      <option name="closed" value="true" />
+      <created>1738181705309</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1738181705309</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">

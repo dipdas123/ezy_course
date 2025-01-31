@@ -1,9 +1,14 @@
-// reaction_button.dart
+import 'package:audioplayers/audioplayers.dart';
+import 'package:ezycourse/utils/audio_constants.dart';
+import 'package:ezycourse/utils/color_constants.dart';
+import 'package:ezycourse/utils/style_utils.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../utils/asset_constants.dart';
 import '../../utils/size_config.dart';
 import '../../utils/string_constants.dart';
+import 'common_widgets.dart';
 
 class Reaction {
   final String id;
@@ -22,10 +27,10 @@ class ReactionButton extends StatefulWidget {
   final bool isReacted;
 
   const ReactionButton({
-    Key? key,
+    super.key,
     required this.onReactionSelected,
     this.isReacted = false,
-  }) : super(key: key);
+  });
 
   @override
   State<ReactionButton> createState() => _ReactionButtonState();
@@ -35,28 +40,16 @@ class _ReactionButtonState extends State<ReactionButton> with SingleTickerProvid
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
+  final AudioPlayer audioPlayer = AudioPlayer();
 
   bool _showReactions = false;
-  int? _selectedReactionIndex;
+  double _dragOffset = 0.0;
+  int? _hoveredReactionIndex;
 
-  final List<Reaction> reactions = [
-    Reaction(
-      id: 'like',
-      name: 'Like',
-      icon: AssetImage(AssetConfig.like_icon),
-    ),
-    Reaction(
-      id: 'love',
-      name: 'Love',
-      icon: AssetImage(AssetConfig.love_icon),
-    ),
-    Reaction(
-      id: 'haha',
-      name: 'Haha',
-      icon: AssetImage(AssetConfig.haha_icon),
-    ),
-    // Add more reactions as needed
-  ];
+  // Constants for drag calculations
+  final double _reactionWidth = 41.0; // 25 (icon) + 16 (padding)
+  final double _maxDragOffset = 246.0; // 41 * 6 (total width of reactions)
+
 
   @override
   void initState() {
@@ -89,99 +82,168 @@ class _ReactionButtonState extends State<ReactionButton> with SingleTickerProvid
     super.dispose();
   }
 
-  void _toggleReactions() {
+  void _showReactionsOnLongPressList(LongPressStartDetails details) {
+    final RenderBox box = context.findRenderObject() as RenderBox;
+    final Offset localPosition = box.globalToLocal(details.globalPosition);
+
+    HapticFeedback.lightImpact();
+    playReactionSoundOnLongPress();
     setState(() {
-      _showReactions = !_showReactions;
-      if (_showReactions) {
-        _controller.forward();
-      } else {
-        _controller.reverse();
-      }
+      _showReactions = true;
+      _dragOffset = 0.0;
+      _controller.forward();
     });
   }
 
+  void _hideReactionsList() {
+    // playReactionSoundOnFingerDown();
+    setState(() {
+      _showReactions = false;
+      _dragOffset = 0.0;
+      _hoveredReactionIndex = null;
+      _controller.reverse();
+    });
+  }
+
+  void _handleDragUpdate(LongPressMoveUpdateDetails details) {
+    if (!_showReactions) return;
+    setState(() {
+      _dragOffset += details.offsetFromOrigin.dx * 0.05;
+      _dragOffset = _dragOffset.clamp(-_maxDragOffset, 0);
+
+      int hoveredIndex = (-_dragOffset / _reactionWidth).floor();
+      hoveredIndex = hoveredIndex.clamp(0, reactionsList.length - 1);
+      _hoveredReactionIndex = hoveredIndex;
+    });
+  }
+
+  void _handleDragEnd(LongPressEndDetails details) {
+    playReactionSoundOnFingerDown();
+    if (_hoveredReactionIndex != null) {
+      _handleReactionSelected(reactionsList[_hoveredReactionIndex!]);
+    }
+    _hideReactionsList();
+  }
+
   void _handleReactionSelected(Reaction reaction) {
+    HapticFeedback.lightImpact();
+    playReactionSoundOnlyLike();
+    _hideReactionsList();
     widget.onReactionSelected(reaction);
-    _toggleReactions();
+    print("Reaction selected: ${reaction.name}");
+  }
+
+  void playReactionSoundOnlyLike() async {
+    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
+    await audioPlayer.play(AssetSource(AudioConstant.facebook_like_react_sound_mp3));
+  }
+
+  void playReactionSoundOnLongPress() async {
+    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
+    await audioPlayer.play(AssetSource(AudioConstant.boxUp));
+  }
+
+  void playReactionSoundOnFingerMove() async {
+    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
+    await audioPlayer.play(AssetSource(AudioConstant.focus));
+  }
+
+  void playReactionSoundOnFingerDown() async {
+    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
+    await audioPlayer.play(AssetSource(AudioConstant.boxDown));
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onLongPress: _toggleReactions,
-      onTapDown: (_) => _toggleReactions(),
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: getProportionateScreenWidth(22),
-                height: getProportionateScreenHeight(22),
-                padding: const EdgeInsets.only(right: 5.0),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: widget.isReacted
-                        ? reactions[0].icon
-                        : AssetImage(AssetConfig.like_icon),
-                    fit: BoxFit.contain,
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        GestureDetector(
+          behavior: HitTestBehavior.opaque,
+          onLongPressStart: _showReactionsOnLongPressList,
+          onLongPressMoveUpdate: _handleDragUpdate,
+          onLongPressEnd: _handleDragEnd,
+          onTap: () {
+            if (!_showReactions) {
+              _handleReactionSelected(reactionsList[0]);
+            }
+          },
+          child: Container(
+            // color: ColorConfig.feedsBGColor,
+            child: Row(
+              children: [
+                Container(
+                  width: getProportionateScreenWidth(30),
+                  height: getProportionateScreenHeight(30),
+                  padding: const EdgeInsets.only(right: 5.0),
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: widget.isReacted ? reactionsList[0].icon : AssetImage(AssetConfig.like_unclicked),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                StringConfig.like,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: widget.isReacted
-                      ? Theme.of(context).primaryColor
-                      : Colors.grey[700],
+
+                Text(widget.isReacted ? StringConfig.liked : StringConfig.like,
+                  style: textSize14w500.copyWith(color: widget.isReacted ? Theme.of(context).primaryColor : ColorConfig.greyColor),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-          if (_showReactions)
-            Positioned(
-              bottom: 40,
-              left: -16,
+        ),
+
+        if (_showReactions)
+          Positioned(
+            bottom: 35,
+            left: 10,
+            child: Material(
+              color: Colors.transparent,
               child: SlideTransition(
                 position: _slideAnimation,
                 child: ScaleTransition(
                   scale: _scaleAnimation,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.1),
-                          blurRadius: 10,
-                          spreadRadius: 2,
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: reactions.map((reaction) {
-                        return GestureDetector(
-                          onTap: () => _handleReactionSelected(reaction),
-                          child: Padding(
+                  child: Transform.translate(
+                    offset: Offset(_dragOffset, 0),
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(30),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.3),
+                            blurRadius: 10,
+                            spreadRadius: 2,
+                          ),
+                        ],
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: reactionsList.asMap().entries.map((entry) {
+                          final int index = entry.key;
+                          final Reaction reaction = entry.value;
+                          final bool isHovered = index == _hoveredReactionIndex;
+
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 100),
                             padding: const EdgeInsets.symmetric(horizontal: 8),
+                            transform: Matrix4.identity()..scale(isHovered ? 1.5 : 1.0),
                             child: Image(
                               image: reaction.icon,
-                              width: 30,
-                              height: 30,
+                              width: getProportionateScreenWidth(25),
+                              height: getProportionateScreenHeight(35),
+                              fit: BoxFit.contain,
                             ),
-                          ),
-                        );
-                      }).toList(),
+                          );
+                        }).toList(),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-        ],
-      ),
+          ),
+      ],
     );
   }
 }

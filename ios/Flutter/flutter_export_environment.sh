@@ -1,7 +1,7 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=C:\flutter_3_22_2\flutter"
-export "FLUTTER_APPLICATION_PATH=D:\Android_Studio_Projects\android_studio_flutter_projects\Job Task Projects\ezycourse"
+export "FLUTTER_ROOT=C:\flutter_3_24_3"
+export "FLUTTER_APPLICATION_PATH=D:\Out_Projects\ezy_course"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_TARGET=lib\main.dart"
 export "FLUTTER_BUILD_DIR=build"
