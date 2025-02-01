@@ -43,7 +43,7 @@ dependencies:
   get: ^4.6.6
   audioplayers: ^6.1.1
   image_picker: ^1.1.2
-
+  connectivity_plus: ^6.1.2
 
 
 

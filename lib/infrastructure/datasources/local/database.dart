@@ -74,10 +74,8 @@ class DatabaseHelper {
     List<Map<String, dynamic>> maps = await db.query('Feed');
 
     return maps.map((map) {
-      // Create a new map to avoid modifying the original read-only QueryRow
       Map<String, dynamic> updatedMap = Map.from(map);
 
-      // Decode likeType field if it's a string (i.e., stored as a JSON string)
       if (updatedMap['likeType'] is String) {
         updatedMap['likeType'] = jsonDecode(updatedMap['likeType']);
       }

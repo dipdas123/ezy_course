@@ -66,7 +66,11 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                       children: [
                         (feed?.user?.profilePic ?? "").isEmpty
                             ?
-                        Image.asset(AssetConfig.user_icon_rounded)
+                        Image.asset(
+                          AssetConfig.user_icon_rounded,
+                          height: getProportionateScreenHeight(30),
+                          width: getProportionateScreenWidth(30),
+                        )
                             :
                         CircleAvatar(
                           radius: 20,

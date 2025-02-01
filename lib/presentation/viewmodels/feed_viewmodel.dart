@@ -22,6 +22,7 @@ import '../../infrastructure/datasources/local/database.dart';
 import '../../providers/feed/feed_provider.dart';
 import '../../utils/color_constants.dart';
 import '../../utils/style_utils.dart';
+import '../../utils/utils.dart';
 
 final feedViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   final feedUseCases = ref.read(feedUseCasesProvider);
@@ -31,7 +32,7 @@ final feedViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 class FeedViewModel extends ChangeNotifier {
   final FeedUseCases feedUseCases;
   FeedViewModel(this.feedUseCases) {
-    getFeed();
+    checkInternet();
     scrollController.addListener(scrollListener);
   }
 
@@ -163,9 +164,10 @@ class FeedViewModel extends ChangeNotifier {
           }
         }
 
-        printInfo(info: "getFeedsFromSqfLite :: ${await dbHelper.getFeeds()}");
+        // printInfo(info: "getFeedsFromSqfLite :: ${await dbHelper.getFeeds()}");
       } else {
         feedList.clear();
+        checkInternet();
       }
 
     } else {
@@ -176,10 +178,16 @@ class FeedViewModel extends ChangeNotifier {
       if (response.isNotEmpty) {
         if (isLoadingMoreFeeds) {
           feedList.addAll(response);
+          for (var feed in feedList) {
+            if (feed != null) {
+              await insertFeed(feed);
+            }
+          }
           isLoadingMoreFeeds = false;
         }
       } else {
         isLoadingMoreFeeds = false;
+        checkInternet();
       }
     }
 
@@ -374,6 +382,20 @@ class FeedViewModel extends ChangeNotifier {
 
   void notify() {
     notifyListeners();
+  }
+
+  void checkInternet() async {
+    if (await checkConnection()) {
+      getFeed();
+    } else {
+      getOfflineFeed();
+    }
+  }
+
+  void getOfflineFeed() async {
+    var list = await dbHelper.getFeeds();
+    feedList.addAll(list);
+    notify();
   }
 
 }
