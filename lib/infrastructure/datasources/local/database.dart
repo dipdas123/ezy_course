@@ -59,6 +59,11 @@ class DatabaseHelper {
     ''');
   }
 
+  Future<void> clearDatabase() async {
+    Database db = await database;
+    await db.delete('Feed');
+  }
+
   Future<int> insertFeed(Feed feed) async {
     Database db = await database;
     return await db.insert('Feed', feed.toJson());
