@@ -28,10 +28,16 @@ class StringConfig{
 
   static String liked = "  Liked";
 
-  static String noRepliesYet = "No replies yet.";
+  static String noRepliesYet = "No replies yet";
 
   static String privacy = "Privacy";
 
   static String createPost = "Create Post";
+
+  static var reply = "Reply";
+
+  static var logout = " Logout";
+
+  static String areuSuretoLogout = "Are you sure you want to logout?";
 
   }

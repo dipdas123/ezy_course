@@ -80,8 +80,3 @@ getReaction(String reactionFromApi) {
   // }
 }
 
-void playReactionSoundOnlyLike() async {
-  final AudioPlayer audioPlayer = AudioPlayer();
-  if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
-  await audioPlayer.play(AssetSource(AudioConstant.facebook_like_react_sound_mp3));
-}

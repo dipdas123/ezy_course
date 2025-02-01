@@ -1,9 +1,11 @@
 import 'package:audioplayers/audioplayers.dart';
+import 'package:ezycourse/core/entities/feed.dart';
 import 'package:ezycourse/utils/audio_constants.dart';
 import 'package:ezycourse/utils/color_constants.dart';
 import 'package:ezycourse/utils/style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get_utils/get_utils.dart';
 
 import '../../utils/asset_constants.dart';
 import '../../utils/size_config.dart';
@@ -25,11 +27,13 @@ class Reaction {
 class ReactionButton extends StatefulWidget {
   final Function(Reaction) onReactionSelected;
   final bool isReacted;
+  final Feed? feed;
 
   const ReactionButton({
     super.key,
     required this.onReactionSelected,
     this.isReacted = false,
+    this.feed,
   });
 
   @override
@@ -40,7 +44,6 @@ class _ReactionButtonState extends State<ReactionButton> with SingleTickerProvid
   late AnimationController _controller;
   late Animation<Offset> _slideAnimation;
   late Animation<double> _scaleAnimation;
-  final AudioPlayer audioPlayer = AudioPlayer();
 
   bool _showReactions = false;
   double _dragOffset = 0.0;
@@ -127,30 +130,14 @@ class _ReactionButtonState extends State<ReactionButton> with SingleTickerProvid
 
   void _handleReactionSelected(Reaction reaction) {
     HapticFeedback.lightImpact();
-    playReactionSoundOnlyLike();
+    if (widget.feed?.likeTypeList?.any((reaction) => reaction.reactionType == widget.feed?.like?.reactionType) == false) {
+      playReactionSoundOnlyLike();
+    } else {
+
+    }
     _hideReactionsList();
     widget.onReactionSelected(reaction);
     print("Reaction selected: ${reaction.name}");
-  }
-
-  void playReactionSoundOnlyLike() async {
-    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
-    await audioPlayer.play(AssetSource(AudioConstant.facebook_like_react_sound_mp3));
-  }
-
-  void playReactionSoundOnLongPress() async {
-    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
-    await audioPlayer.play(AssetSource(AudioConstant.boxUp));
-  }
-
-  void playReactionSoundOnFingerMove() async {
-    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
-    await audioPlayer.play(AssetSource(AudioConstant.focus));
-  }
-
-  void playReactionSoundOnFingerDown() async {
-    if (audioPlayer.state == PlayerState.playing) audioPlayer.stop();
-    await audioPlayer.play(AssetSource(AudioConstant.boxDown));
   }
 
   @override
@@ -158,6 +145,7 @@ class _ReactionButtonState extends State<ReactionButton> with SingleTickerProvid
     return Stack(
       clipBehavior: Clip.none,
       children: [
+
         GestureDetector(
           behavior: HitTestBehavior.opaque,
           onLongPressStart: _showReactionsOnLongPressList,
@@ -168,28 +156,35 @@ class _ReactionButtonState extends State<ReactionButton> with SingleTickerProvid
               _handleReactionSelected(reactionsList[0]);
             }
           },
-          child: Container(
-            // color: ColorConfig.feedsBGColor,
-            child: Row(
-              children: [
-                Container(
-                  width: getProportionateScreenWidth(30),
-                  height: getProportionateScreenHeight(30),
-                  padding: const EdgeInsets.only(right: 5.0),
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: widget.isReacted ? reactionsList[0].icon : AssetImage(AssetConfig.like_unclicked),
-                      fit: BoxFit.contain,
-                    ),
+          child: Row(
+            children: [
+
+              widget.feed?.likeTypeList?.any((reaction) => reaction.feedId == widget.feed?.like?.feedId) ?? false
+                  ?
+              Image(
+                image: getReaction(widget.feed?.like?.reactionType ?? ""),
+                width: getProportionateScreenWidth(25),
+                height: getProportionateScreenHeight(35),
+                fit: BoxFit.contain,
+              )
+                  :
+              Container(
+                width: getProportionateScreenWidth(30),
+                height: getProportionateScreenHeight(30),
+                padding: const EdgeInsets.only(right: 5.0),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: widget.isReacted ? reactionsList[0].icon : AssetImage(AssetConfig.like_unclicked),
+                    fit: BoxFit.contain,
                   ),
                 ),
+              ),
 
-                Text(widget.isReacted ? StringConfig.liked : StringConfig.like,
-                  style: textSize14w500.copyWith(color: widget.isReacted ? Theme.of(context).primaryColor : ColorConfig.greyColor),
-                ),
-              ],
-            ),
-          ),
+              Text(widget.isReacted ? StringConfig.liked : StringConfig.like,
+                style: textSize14w500.copyWith(color: widget.isReacted ? Theme.of(context).primaryColor : ColorConfig.greyColor),
+              ),
+            ],
+          )
         ),
 
         if (_showReactions)

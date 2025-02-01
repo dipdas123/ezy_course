@@ -11,7 +11,7 @@ reactionCounterWidget(BuildContext context, Feed? feed, FeedViewModel provider) 
       const SizedBox(height: 10,),
       Row(
         children: [
-          for (var reaction in (feed?.likeType ?? []).map((e) => e.reactionType).toSet().take(2))
+          for (var reaction in (feed?.likeTypeList ?? []).map((e) => e.reactionType).toSet().take(2))
             Container(
               width: getProportionateScreenWidth(16),
               height: getProportionateScreenHeight(16),

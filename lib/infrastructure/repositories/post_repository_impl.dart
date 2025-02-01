@@ -8,6 +8,8 @@ import 'package:ezycourse/infrastructure/datasources/remote/api_endpoints.dart';
 import 'package:get/get_utils/get_utils.dart';
 import '../../core/entities/Reply.dart';
 import '../../core/entities/comment.dart';
+import '../../core/entities/comment_reply_create_response.dart';
+import '../../core/entities/create_comment_or_reply_body.dart';
 import '../../core/entities/create_update_reaction.dart';
 import '../../core/entities/feed.dart';
 import '../../core/repositories/post_repository.dart';
@@ -25,7 +27,7 @@ class FeedRepositoryImpl implements FeedRepository {
         data: {
           'community_id': "2914",
           'space_id': "5883",
-          'more': lastItemId ?? 0,
+          'more': lastItemId,
         },
         query: {
           "status" : "feed"
@@ -167,6 +169,92 @@ class FeedRepositoryImpl implements FeedRepository {
       print('Unexpected error: $e');
     }
     return CreateUpdateReaction();
+  }
+
+  @override
+  Future<CreateCommentOrReplyResponse> createComment(CreateCommentOrReplyBody body) async {
+    try {
+      final response = await apiClient.postRequest(
+        endpoint: createCommentUrl,
+        data: body.toJson(),
+        query: {},
+      );
+
+      if (response.statusCode == 200) {
+        // return (response.data as List).map((items)=> CreateUpdateReaction.fromJson(items)).toList();
+        return CreateCommentOrReplyResponse.fromJson(response.data);
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        print('Error response: ${e.response?.data}');
+
+        if (e.response?.data is Map<String, dynamic>) {
+          final errorMap = e.response?.data as Map<String, dynamic>;
+          throw Exception(errorMap.toString());
+        }
+      }
+      print('CreateUpdateReaction error: $e');
+    } catch (e) {
+      print('Unexpected error: $e');
+    }
+    return CreateCommentOrReplyResponse();
+  }
+
+  @override
+  Future<CreateCommentOrReplyResponse> replyComment(CreateCommentOrReplyBody body) async {
+    try {
+      final response = await apiClient.postRequest(
+        endpoint: replyCommentUrl,
+        data: body.toJson(),
+        query: {},
+      );
+
+      if (response.statusCode == 200) {
+        // return (response.data as List).map((items)=> CreateUpdateReaction.fromJson(items)).toList();
+        return CreateCommentOrReplyResponse.fromJson(response.data);
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        print('Error response: ${e.response?.data}');
+
+        if (e.response?.data is Map<String, dynamic>) {
+          final errorMap = e.response?.data as Map<String, dynamic>;
+          throw Exception(errorMap.toString());
+        }
+      }
+      print('CreateUpdateReaction error: $e');
+    } catch (e) {
+      print('Unexpected error: $e');
+    }
+    return CreateCommentOrReplyResponse();
+  }
+
+  @override
+  Future<dynamic> logout() async {
+    try {
+      final response = await apiClient.postRequest(
+        endpoint: logoutUrl,
+        query: {},
+      );
+
+      if (response.statusCode == 200) {
+        // return (response.data as List).map((items)=> CreateUpdateReaction.fromJson(items)).toList();
+        return response.data;
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        print('Error response: ${e.response?.data}');
+
+        if (e.response?.data is Map<String, dynamic>) {
+          final errorMap = e.response?.data as Map<String, dynamic>;
+          throw Exception(errorMap.toString());
+        }
+      }
+      print('logout error: $e');
+    } catch (e) {
+      print('Unexpected error: $e');
+    }
+    return null;
   }
 
 }

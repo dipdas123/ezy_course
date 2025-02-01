@@ -43,7 +43,7 @@ class Feed {
   final dynamic poll;
   final dynamic group;
   final User? user;
-  final List<LikeType>? likeType;
+  final List<LikeType>? likeTypeList;
   final dynamic follow;
   final dynamic savedPosts;
   final Like? like;
@@ -95,7 +95,7 @@ class Feed {
     this.poll,
     this.group,
     this.user,
-    this.likeType,
+    this.likeTypeList,
     this.follow,
     this.savedPosts,
     this.like,
@@ -152,7 +152,7 @@ class Feed {
     user: json['user'] == null
         ? null
         : User.fromJson(json['user'] as Map<String, dynamic>),
-    likeType: (json['likeType'] as List<dynamic>?)
+    likeTypeList: (json['likeType'] as List<dynamic>?)
         ?.map((e) => LikeType.fromJson(e as Map<String, dynamic>))
         .toList(),
     follow: json['follow'],
@@ -211,7 +211,7 @@ class Feed {
     'poll': poll,
     'group': group,
     'user': user?.toJson(),
-    'likeType': likeType?.map((e) => e.toJson()).toList(),
+    'likeType': likeTypeList?.map((e) => e.toJson()).toList(),
     'follow': follow,
     'savedPosts': savedPosts,
     'like': like?.toJson(),

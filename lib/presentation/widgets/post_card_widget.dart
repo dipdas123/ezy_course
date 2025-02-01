@@ -12,7 +12,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'FbReactionBox.dart';
 import 'ReactionDragger.dart';
 import 'common_widgets.dart';
 
@@ -26,6 +25,11 @@ class PostCardWidget extends ConsumerStatefulWidget {
 class _PostCardWidget extends ConsumerState<PostCardWidget> {
 
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return Consumer(builder: (BuildContext context, WidgetRef ref, Widget? child) {
@@ -33,6 +37,7 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
 
       return ListView.builder(
         controller: provider.scrollController,
+        physics: const BouncingScrollPhysics(),
         itemCount: provider.feedList.length + (ref.watch(feedViewModelProvider.notifier).isLoadingMoreFeeds ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == provider.feedList.length) {
@@ -207,32 +212,32 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                   children: [
                     ((provider.isLoadingCreateUpdateReact)  && (provider.selectedReactingItemsID == feed?.id)) ? getLoader()
                         :
-                    feed?.likeType?.any((reaction) => reaction.feedId == feed.like?.feedId) ?? false
-                        ?
-                    InkWell(
-                      onTap: () {
-                        printInfo(info: "onReactionSelected :: Reaction selected: LIKE");
-                        HapticFeedback.lightImpact();
-                        playReactionSoundOnlyLike();
-                        provider.selectedReactingItemsID = feed?.id ?? 0;
-                        ref.watch(feedViewModelProvider.notifier).reactToPost(feedId: feed?.id ?? 0, reactionType: "LIKE");
-                      },
-                      child: Image(
-                        image: getReaction(feed?.like?.reactionType ?? ""),
-                        width: getProportionateScreenWidth(25),
-                        height: getProportionateScreenHeight(35),
-                        fit: BoxFit.contain,
-                      ),
-                    )
-                        :
                     SizedBox(
                       width: SizeConfig.screenWidth! / 1.7,
                       child: ReactionButton(
-                        isReacted: feed?.likeType?.any((like) => like.feedId == feed.id) ?? false,
+                        feed: feed,
+                        isReacted: feed?.likeTypeList?.any((like) => like.feedId == feed.id) ?? false,
                         onReactionSelected: (reaction) {
-                          printInfo(info: "onReactionSelected :: Reaction selected: ${reaction.name}");
+                          var getReactedType = "";
+                          var sameReaction = false;
+                          var isAlreadyReacted = feed?.likeTypeList?.any((like) {
+                            getReactedType = like.reactionType ?? "";
+                            sameReaction = (like.reactionType ?? "" == feed.like?.reactionType ?? "") == true ? true : false;
+                            return like.feedId == feed.id;
+                          });
+
                           provider.selectedReactingItemsID = feed?.id ?? 0;
-                          ref.watch(feedViewModelProvider.notifier).reactToPost(feedId: feed?.id ?? 0, reactionType: reaction.name);
+                          if (isAlreadyReacted == true) {
+                            printInfo(info: "onReactionSelected :: getReactedType: $getReactedType");
+                            sameReaction
+                                ?
+                            ref.watch(feedViewModelProvider.notifier).reactToPost(feedId: feed?.id ?? 0, reactionType: getReactedType)
+                                :
+                            ref.watch(feedViewModelProvider.notifier).reactToPost(feedId: feed?.id ?? 0, reactionType: reaction.name);
+                          } else {
+                            printInfo(info: "onReactionSelected :: Reaction selected: ${reaction.name}");
+                            ref.watch(feedViewModelProvider.notifier).reactToPost(feedId: feed?.id ?? 0, reactionType: reaction.name);
+                          }
                         },
                       ),
                     ),
@@ -246,25 +251,29 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                     // ),
 
                     provider.isLoadingComment == true ? Center(child: getLoader()) :
-                    InkWell(
-                      onTap: () async {
-                        ref.read(feedViewModelProvider.notifier).getComment(feed?.id);
-                        provider.notify();
-                        openCommentBottomSheet(context, feed, provider);
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 8.0),
-                        child: Row(
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
-                              child: Image.asset(height: getProportionateScreenHeight(22), width: getProportionateScreenWidth(22), AssetConfig.comment_icon_filled),
-                            ),
+                    Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: ColorConfig.primaryColor,
+                        onTap: () async {
+                          ref.read(feedViewModelProvider.notifier).getComment(feed?.id);
+                          provider.notify();
+                          openCommentBottomSheet(context, feed, provider);
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 8.0),
+                          child: Row(
+                            children: [
+                              Padding(
+                                padding: const EdgeInsets.only(right: 5.0),
+                                child: Image.asset(height: getProportionateScreenHeight(22), width: getProportionateScreenWidth(22), AssetConfig.comment_icon_filled),
+                              ),
 
-                            Text(StringConfig.comment,
-                              style: const TextStyle(fontSize: 14, color: ColorConfig.primaryColor),
-                            ),
-                          ],
+                              Text(StringConfig.comment,
+                                style: const TextStyle(fontSize: 14, color: ColorConfig.primaryColor),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
@@ -283,6 +292,9 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
   }
 
   openCommentBottomSheet(BuildContext context, Feed? feed, FeedViewModel provider) {
+    provider.commentOrReplyController.clear();
+    provider.isReplying = false;
+    provider.notify();
     return CommentBottomSheetWidget().showSheet(context, feed, provider);
   }
 

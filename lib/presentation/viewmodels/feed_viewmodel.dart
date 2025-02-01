@@ -1,18 +1,24 @@
 import 'dart:convert';
+import 'package:ezycourse/core/entities/create_comment_or_reply_body.dart';
 import 'package:ezycourse/core/entities/create_update_reaction_body.dart';
+import 'package:ezycourse/infrastructure/datasources/local/PrefUtils.dart';
+import 'package:ezycourse/presentation/screens/auth/login_screen.dart';
 import 'package:ezycourse/utils/asset_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get/route_manager.dart';
+import 'package:sqflite/sqflite.dart';
 import '../../core/entities/CreateFeedBody.dart';
 import '../../core/entities/Reply.dart';
 import '../../core/entities/comment.dart';
+import '../../core/entities/comment_reply_create_response.dart';
 import '../../core/entities/create_feed.dart';
 import '../../core/entities/create_update_reaction.dart';
 import '../../core/entities/feed.dart';
 import '../../core/usecases/post_usecases.dart';
+import '../../infrastructure/datasources/local/database.dart';
 import '../../providers/feed/feed_provider.dart';
 import '../../utils/color_constants.dart';
 import '../../utils/style_utils.dart';
@@ -25,14 +31,22 @@ final feedViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 class FeedViewModel extends ChangeNotifier {
   final FeedUseCases feedUseCases;
   FeedViewModel(this.feedUseCases) {
+    getFeed();
     scrollController.addListener(scrollListener);
   }
+
+  DatabaseHelper dbHelper = DatabaseHelper();
+  var bottomNavIndex = 0;
   var isLoadingFeeds = false;
   bool isLoadingMoreFeeds = false;
   var isLoadingComment = false;
   var isLoadingCommentReply = false;
   var isLoadingCreateFeed = false;
   var isLoadingCreateUpdateReact = false;
+  var isLoadingCreateComment = false;
+  var isLoadingCreateReply = false;
+  var isLoadingLogout = false;
+  var isReplying = false;
   List<Feed?> feedList = [];
   ScrollController scrollController = ScrollController();
   List<Comment> commentList = [];
@@ -50,10 +64,15 @@ class FeedViewModel extends ChangeNotifier {
   // Create Post
   var isBgVisible = false;
   final TextEditingController postController = TextEditingController();
+  final TextEditingController commentOrReplyController = TextEditingController();
   var selectedGradientBg = const LinearGradient(colors: [ColorConfig.whiteColor, ColorConfig.whiteColor]);
   var selectedBgGradientIndex = -1;
   var selectedGradientJson = "";
   int selectedReactingItemsID = 0;
+  int selectedCommentID = 0;
+  var commentOrReplyText = "";
+
+
 
 
 
@@ -128,7 +147,7 @@ class FeedViewModel extends ChangeNotifier {
     }
   }
 
-  Future<void> getFeed({int? lastItemId, bool? shouldShowLoader}) async {
+  Future<void> getFeed({int? lastItemId, bool? shouldShowLoader = true}) async {
     if (lastItemId == null) {
       shouldShowLoader == true ? isLoadingFeeds = true : isLoadingFeeds = false;
       notifyListeners();
@@ -138,6 +157,13 @@ class FeedViewModel extends ChangeNotifier {
       if (response.isNotEmpty) {
         feedList.clear();
         feedList.addAll(response);
+        for (var feed in feedList) {
+          if (feed != null) {
+            await insertFeed(feed);
+          }
+        }
+
+        printInfo(info: "getFeedsFromSqfLite :: ${await dbHelper.getFeeds()}");
       } else {
         feedList.clear();
       }
@@ -159,6 +185,40 @@ class FeedViewModel extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  Future<int> insertFeed(Feed feed) async {
+    Database db = await dbHelper.database;
+    return await db.insert(
+      'Feed',
+      {
+        'id': feed.id,
+        'school_id': feed.schoolId,
+        'user_id': feed.userId,
+        'course_id': feed.courseId,
+        'community_id': feed.communityId,
+        'group_id': feed.groupId,
+        'feed_txt': feed.feedTxt,
+        'status': feed.status,
+        'file_type': feed.fileType,
+        'like_count': feed.likeCount,
+        'comment_count': feed.commentCount,
+        'share_count': feed.shareCount,
+        'share_id': feed.shareId,
+        'feed_privacy': feed.feedPrivacy,
+        'is_background': feed.isBackground != null ? 1 : 0,
+        'bg_color': feed.bgColor,
+        'space_id': feed.spaceId,
+        'publish_date': feed.publishDate,
+        'name': feed.name,
+        'likeType': jsonEncode((feed.likeTypeList ?? []).map((e) => e.toJson()).toList()),
+        'follow': feed.follow,
+        // 'like': jsonEncode(feed.like?.toJson()),
+        'comments': feed.comments,
+      },
+      conflictAlgorithm: ConflictAlgorithm.replace,
+    );
+  }
+
 
   Future<List<Comment>> getComment(int? feedID) async {
     isLoadingComment = true;
@@ -229,6 +289,79 @@ class FeedViewModel extends ChangeNotifier {
 
     notify();
     return response;
+  }
+
+  Future<CreateCommentOrReplyResponse> createComment({required int feedId, required int feedUserID}) async {
+    isLoadingCreateComment = true;
+    notify();
+    var body = CreateCommentOrReplyBody(
+      feedId: feedId, feedUserId: feedUserID, commentTxt: commentOrReplyController.text, commentSource: "group",
+    );
+    final response = await feedUseCases.createComment(body);
+    isLoadingCreateComment = false;
+
+    if ((response.commentText ?? "").isNotEmpty) {
+      getComment(feedId);
+      getFeed(shouldShowLoader: false);
+      isReplying = false;
+      commentOrReplyController.clear();
+    } else {
+      Get.snackbar("Failed!", "Commenting failed, please try again.");
+    }
+
+    notify();
+    return response;
+  }
+
+  Future<CreateCommentOrReplyResponse> replyComment({required int feedId, required int feedUserID, required int commentParentID}) async {
+    isLoadingCreateReply = true;
+    notify();
+    var body = CreateCommentOrReplyBody(
+      feedId: feedId, feedUserId: feedUserID, parentId: commentParentID, commentTxt: commentOrReplyController.text, commentSource: "COMMUNITY",
+    );
+    final response = await feedUseCases.replyComment(body);
+    isLoadingCreateReply = false;
+
+    if ((response.commentText ?? "").isNotEmpty) {
+      getComment(feedId);
+      getReply(selectedCommentID);
+      getFeed(shouldShowLoader: false);
+      isReplying = false;
+      commentOrReplyController.clear();
+      Get.snackbar("Replied", "success");
+    } else {
+      Get.snackbar("Failed!", "Comment replying failed, please try again.");
+    }
+
+    notify();
+    return response;
+  }
+
+  Future<dynamic> logout() async {
+    isLoadingLogout = true;
+    notify();
+
+    final response = await feedUseCases.logout();
+    isLoadingLogout = false;
+
+    if ((response["msg"] ?? "").isNotEmpty) {
+      Get.snackbar("Logout", "${response["msg"] ?? ""}", snackPosition: SnackPosition.BOTTOM, colorText: ColorConfig.whiteColor, backgroundColor: ColorConfig.greenColor);
+      PrefUtils.clearSharedPreferences();
+      Get.offAll(()=> LoginScreen());
+    } else {
+      Get.snackbar("Failed!", "Logout failed, please try again.", snackPosition: SnackPosition.BOTTOM, colorText: ColorConfig.whiteColor, backgroundColor: ColorConfig.redColor);
+    }
+
+    notify();
+    return response;
+  }
+
+  void clearCommentField() {
+    isReplying = false;
+    commentOrReplyController.clear();
+    commentOrReplyText = "";
+    selectedCommentID = 0;
+    notify();
   }
 
   @override

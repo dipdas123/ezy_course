@@ -121,7 +121,8 @@ class LoginScreen extends ConsumerWidget {
                             controller: passwordController,
                             borderColor: ColorConfig.whiteColor,
                             hintText: StringConfig.password,
-                            autovalidateMode: AutovalidateMode.onUserInteraction,
+                            obscureText: true,
+                            autoValidateMode: AutovalidateMode.onUserInteraction,
                             hintStyle: TextStyle(color: ColorConfig.whiteColor.withOpacity(0.50)),
                             onChanged: (value) {
 

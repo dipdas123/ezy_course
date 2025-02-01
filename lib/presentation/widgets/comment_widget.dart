@@ -1,11 +1,15 @@
 import 'package:ezycourse/core/entities/comment.dart';
+import 'package:ezycourse/presentation/viewmodels/feed_viewmodel.dart';
+import 'package:ezycourse/presentation/widgets/common_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get_utils/src/extensions/widget_extensions.dart';
 import '../../utils/color_constants.dart';
 import '../../utils/size_config.dart';
+import '../../utils/string_constants.dart';
 import '../../utils/style_utils.dart';
 
-commentWidget(BuildContext context, Comment comment) {
+commentWidget(BuildContext context, Comment comment, FeedViewModel provider) {
   return Card(
     color: ColorConfig.whiteColor,
     shape: RoundedRectangleBorder(
@@ -42,11 +46,37 @@ commentWidget(BuildContext context, Comment comment) {
             ],
           ),
 
-          Row(mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text("${comment.replyCount} Replies", style: textSize12w500).paddingOnly(top: 5, right: 8),
-            ],
-          ),
+          (comment.replyCount ?? 0) != (-1) ?
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("${comment.replyCount} Replies", style: textSize12w500).paddingOnly(top: 5, right: 8),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    provider.isLoadingCreateReply ? getLoader() : InkWell(
+                      onTap: () {
+                        SystemChannels.textInput.invokeMethod("TextInput.show");
+                        provider.isReplying = true;
+                        provider.selectedCommentID = comment.id ?? 0;
+                        provider.notify();
+                      },
+                      child: Row(
+                        children: [
+                          Text(StringConfig.reply, style: textSize12.copyWith(color: ColorConfig.primaryColor.withOpacity(0.75), fontWeight: FontWeight.w800),),
+                          const SizedBox(width: 5,),
+                          Icon(Icons.send_rounded, size: 25, color: ColorConfig.primaryColor.withOpacity(0.75)),
+                        ],
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ) : const SizedBox(),
         ],
       ),
     ),

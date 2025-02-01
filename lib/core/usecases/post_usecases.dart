@@ -3,6 +3,8 @@ import 'package:ezycourse/core/entities/create_update_reaction.dart';
 
 import '../entities/Reply.dart';
 import '../entities/comment.dart';
+import '../entities/comment_reply_create_response.dart';
+import '../entities/create_comment_or_reply_body.dart';
 import '../entities/create_feed.dart';
 import '../entities/create_update_reaction_body.dart';
 import '../entities/feed.dart';
@@ -31,5 +33,17 @@ class FeedUseCases {
 
   Future<CreateUpdateReaction> createOrUpdateReaction(CreateUpdateReactionBody body) {
     return feedRepository.createOrUpdateReaction(body);
+  }
+
+  Future<CreateCommentOrReplyResponse> createComment(CreateCommentOrReplyBody body) {
+    return feedRepository.createComment(body);
+  }
+
+  Future<CreateCommentOrReplyResponse> replyComment(CreateCommentOrReplyBody body) {
+    return feedRepository.replyComment(body);
+  }
+
+  Future<dynamic> logout() {
+    return feedRepository.logout();
   }
 }
