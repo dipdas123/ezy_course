@@ -76,6 +76,9 @@ class DatabaseHelper {
       if (updatedMap['likeType'] is String) {
         updatedMap['likeType'] = jsonDecode(updatedMap['likeType']);
       }
+      if (updatedMap['like'] is String) {
+        updatedMap['like'] = jsonDecode(updatedMap['like']);
+      }
 
       return Feed.fromJson(updatedMap);
     }).toList();

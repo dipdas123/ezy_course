@@ -212,7 +212,7 @@ class FeedViewModel extends ChangeNotifier {
         'name': feed.name,
         'likeType': jsonEncode((feed.likeTypeList ?? []).map((e) => e.toJson()).toList()),
         'follow': feed.follow,
-        // 'like': jsonEncode(feed.like?.toJson()),
+        'like': jsonEncode(feed.like?.toJson()),
         'comments': feed.comments,
       },
       conflictAlgorithm: ConflictAlgorithm.replace,

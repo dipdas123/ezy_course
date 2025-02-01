@@ -51,12 +51,12 @@ class _LogoutState extends ConsumerState<LogoutScreen>{
                     btnColor: ColorConfig.primaryColor.withOpacity(0.85),
                     btnText: StringConfig.logout,
                     onPressed: () async {
-                      provider.logout();
-                      // DatabaseHelper dbHelper = DatabaseHelper();
-                      // List<Feed> feeds = await dbHelper.getFeeds();
-                      // for (var feed in feeds) {
-                      //   print(feed.feedTxt);
-                      // }
+                      // provider.logout();
+                      DatabaseHelper dbHelper = DatabaseHelper();
+                      List<Feed> feeds = await dbHelper.getFeeds();
+                      for (var feed in feeds) {
+                        print(feed.feedTxt);
+                      }
                     },
                   ),
                 ),
