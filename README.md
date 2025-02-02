@@ -67,35 +67,20 @@ EzyCourse is built using **Clean Architecture** and **Riverpod** for state manag
 ```
 lib/
 ├── core/
-│   ├── config.dart
-│   ├── constants.dart
-│   ├── utils/
-├── data/
-│   ├── datasources/
-│   ├── models/
-│   ├── repositories/
-├── domain/
 │   ├── entities/
 │   ├── repositories/
 │   ├── usecases/
+├── infrastructure/
+│   ├── datasources/local
+│   ├───────────── /remote
+│   ├── repositories/
 ├── presentation/
-│   ├── pages/
+│   ├── screen/
+│   ├── viewmodel/
 │   ├── widgets/
-│   ├── viewmodels/
+├── utils/
 ├── main.dart
 ```
 
-## Contributing
-Contributions are welcome! Please fork the repository and create a pull request with your changes.
-
-## License
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-- **Flutter Community**
-- **Riverpod for state management**
-- **Dio for network requests**
-- **SQLite for local storage**
-
-Enjoy building and using **EzyCourse**! For any issues or feature requests, please open an issue on the GitHub repository.
+Enjoy building and using **EzyCourse**!.
 
