@@ -8,11 +8,9 @@ import 'package:ezycourse/utils/style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import '../../../utils/app_constants.dart';
 import '../../../utils/app_logs.dart';
 import '../../../utils/color_constants.dart';
 import '../../../utils/internet_connectivity.dart';
-import '../../widgets/FbReactionBox.dart';
 import '../../widgets/post_card_widget.dart';
 import '../../widgets/common_widgets.dart';
 

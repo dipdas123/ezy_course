@@ -277,14 +277,6 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                       ),
                     ),
 
-                    // Expanded(
-                    //   child: SizedBox(
-                    //     height: getProportionateScreenHeight(500),
-                    //     width: SizeConfig.screenWidth! / 1.5,
-                    //     child: const FbReactionBox(),
-                    //   ),
-                    // ),
-
                     provider.isLoadingComment == true ? Center(child: getLoader()) :
                     Material(
                       color: Colors.transparent,
