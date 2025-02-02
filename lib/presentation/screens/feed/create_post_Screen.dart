@@ -8,7 +8,6 @@ import 'package:ezycourse/utils/style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import '../../../utils/asset_constants.dart';
 
 class CreatePostScreen extends ConsumerStatefulWidget {
@@ -19,18 +18,6 @@ class CreatePostScreen extends ConsumerStatefulWidget {
 }
 
 class _CreatePostScreen extends ConsumerState<CreatePostScreen> {
-  File? _selectedImage;
-
-  Future<void> _pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      setState(() {
-        _selectedImage = File(image.path);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
