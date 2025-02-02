@@ -1,15 +1,15 @@
 # EzyCourse - Community Feed Application
 
-EzyCourse is a Flutter-based community feed application designed to dynamically fetch and display posts from an API. The app includes user authentication, post creation, reactions, comments, replies, and real-time updates. It also supports offline mode, allowing users to view previously loaded content without an internet connection.
+EzyCourse is a Flutter-based community feed application designed to dynamically fetch and display posts. The app includes user authentication, post creation, reactions, comments, replies, and real-time updates. It also supports offline mode, allowing users to view previously loaded content without an internet connection.
 
 ## Features
 - **User Authentication:** Login and logout functionality with session management.
-- **Dynamic Feed:** Fetch and display posts dynamically from an API.
-- **Create Posts:** Users can create text or image posts.
+- **Dynamic Feed:** Fetch and display posts dynamically from API.
+- **Create Posts:** Users can create text posts.
 - **Reactions:** Users can react to posts with options like 'like', 'love', etc.
 - **Comments and Replies:** Users can comment on posts and reply to comments.
-- **Offline Mode:** Local data storage using SQLite to view content offline.
-- **Real-time Updates:** Immediate feed updates upon new post creation.
+- **Offline Mode:** Local data storage using sqflite to view content offline.
+- **Real-time Updates:** Immediate feed updates upon new post creation or reacions and increase or decrease counts.
 - **Audio Feedback:** Sound effects for reactions.
 - **Internet Status:** Real-time internet connection status updates.
 
@@ -18,14 +18,13 @@ EzyCourse is built using **Clean Architecture** and **Riverpod** for state manag
 
 ### Layers
 - **Presentation Layer:** Contains the UI components and interacts with the ViewModel.
-- **Application Layer:** Manages the business logic and use cases.
-- **Domain Layer:** Defines the core business logic and entities.
-- **Data Layer:** Handles data retrieval from the API and local storage.
-
+- **Infrastructure Layer:** Handles data retrieval from the API and local storage.
+- **Core Layer:** Defines the core business logic and entities.
+  
 ## Technologies Used
 - **Riverpod:** For state management.
 - **Dio:** For network requests and API interactions.
-- **SQLite:** For local data storage and offline mode.
+- **SQFLite:** For local data storage and offline mode.
 - **SharedPreferences:** For storing tokens and small data.
 - **GetX:** For navigation.
 - **Audio Players:** For playing sound effects on reactions.
@@ -40,8 +39,7 @@ EzyCourse is built using **Clean Architecture** and **Riverpod** for state manag
 ### Steps
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/EzyCourse.git
-   cd EzyCourse
+   git clone https://github.com/dipdas123/ezy_course.git
    ```
 2. **Install Dependencies:**
    ```bash
@@ -64,9 +62,7 @@ EzyCourse is built using **Clean Architecture** and **Riverpod** for state manag
    ```
 
 ## Configuration
-- **API Base URL:** Update the base URL in `lib/core/config.dart`.
-- **Audio Files:** Place your audio files in the `assets/audio` directory and update the `pubspec.yaml` file accordingly.
-
+- **API Base URL:** Update the base URL if needed in `lib/infrastructure/remote/api_endpoints.dart`.
 ## Folder Structure
 ```
 lib/
