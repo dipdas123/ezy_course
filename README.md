@@ -12,6 +12,7 @@ EzyCourse is a Flutter-based community feed application designed to dynamically 
 - **Real-time Updates:** Immediate feed updates upon new post creation or reacions and increase or decrease counts.
 - **Audio Feedback:** Sound effects for reactions.
 - **Internet Status:** Real-time internet connection status updates.
+- **Logout:** Users can logout easily and session and DB data reset.
 
 ## Architectural Pattern
 EzyCourse is built using **Clean Architecture** and **Riverpod** for state management. The architecture ensures a clear separation of concerns, with distinct layers for UI, application logic, and data.
