@@ -14,7 +14,7 @@ Widget getLoader({Color? color}) {
       height: getProportionateScreenHeight(25),
       width: getProportionateScreenWidth(25),
       child: CircularProgressIndicator(
-        strokeWidth: 6.0,
+        strokeWidth: 3.0,
         valueColor: AlwaysStoppedAnimation<Color>(color ?? ColorConfig.primaryColorLite),
       ),
     ),
@@ -35,37 +35,37 @@ bool isTextOverflowing(String text, double maxWidth, double maxHeight, TextStyle
 List<Reaction> reactionsList = [
   Reaction(
     id: 'like',
-    name: 'LIKE', // Uppercase
+    name: 'LIKE',
     icon: AssetImage(AssetConfig.like_icon),
   ),
   Reaction(
     id: 'love',
-    name: 'LOVE', // Uppercase
+    name: 'LOVE',
     icon: AssetImage(AssetConfig.love_icon),
   ),
   Reaction(
     id: 'haha',
-    name: 'HAHA', // Uppercase
+    name: 'HAHA',
     icon: AssetImage(AssetConfig.haha_icon),
   ),
   Reaction(
     id: 'care',
-    name: 'CARE', // Uppercase
+    name: 'CARE',
     icon: AssetImage(AssetConfig.care_icon),
   ),
   Reaction(
     id: 'wow',
-    name: 'WOW', // Uppercase
+    name: 'WOW',
     icon: AssetImage(AssetConfig.wow_icon),
   ),
   Reaction(
     id: 'sad',
-    name: 'SAD', // Uppercase
+    name: 'SAD',
     icon: AssetImage(AssetConfig.haha_icon),
   ),
   Reaction(
     id: 'angry',
-    name: 'ANGRY', // Uppercase
+    name: 'ANGRY',
     icon: AssetImage(AssetConfig.angry_icon),
   ),
 ];
@@ -74,9 +74,5 @@ getReaction(String reactionFromApi) {
   return reactionsList.firstWhere((reaction) => reaction.name.toUpperCase() == reactionFromApi.toUpperCase(),
     orElse: () => Reaction(id: '', name: '', icon: const AssetImage('')),
   ).icon;
-  // for(var reaction in reactionsList) {
-  //   print("reactionFromApi :: $reactionFromApi >>> ${reaction.name == reactionFromApi}");
-  //   return reaction.name.toUpperCase() == reactionFromApi.toUpperCase() ? reaction.icon : AssetImage(AssetConfig.like_icon2);
-  // }
 }
 

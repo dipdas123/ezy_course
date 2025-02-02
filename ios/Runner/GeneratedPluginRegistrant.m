@@ -6,6 +6,12 @@
 
 #import "GeneratedPluginRegistrant.h"
 
+#if __has_include(<app_settings/AppSettingsPlugin.h>)
+#import <app_settings/AppSettingsPlugin.h>
+#else
+@import app_settings;
+#endif
+
 #if __has_include(<audioplayers_darwin/AudioplayersDarwinPlugin.h>)
 #import <audioplayers_darwin/AudioplayersDarwinPlugin.h>
 #else
@@ -45,6 +51,7 @@
 @implementation GeneratedPluginRegistrant
 
 + (void)registerWithRegistry:(NSObject<FlutterPluginRegistry>*)registry {
+  [AppSettingsPlugin registerWithRegistrar:[registry registrarForPlugin:@"AppSettingsPlugin"]];
   [AudioplayersDarwinPlugin registerWithRegistrar:[registry registrarForPlugin:@"AudioplayersDarwinPlugin"]];
   [ConnectivityPlusPlugin registerWithRegistrar:[registry registrarForPlugin:@"ConnectivityPlusPlugin"]];
   [FLTImagePickerPlugin registerWithRegistrar:[registry registrarForPlugin:@"FLTImagePickerPlugin"]];

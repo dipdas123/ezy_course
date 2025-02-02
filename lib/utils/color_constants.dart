@@ -15,7 +15,7 @@ class ColorConfig {
   static const Color blackColor = Color(0xFF000000);
   static const Color redColor = Color(0xFFFF0000);
   static const Color greyColor = Color(0xFF9E9E9E);
-  static const Color greenColor = Color(0xff008000);
+  static const Color greenColor = Color(0xff00d700);
 
   static const Color hintColor = Color(0xff5b5b5b);
 

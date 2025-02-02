@@ -3,6 +3,8 @@ class AssetConfig {
   static String backgroundPath = 'assets/backgrounds';
 
   static String appLogo = "$iconPath/app_logo.png";
+  static String user1 = "$iconPath/user1.png";
+  static String user2 = "$iconPath/user2.png";
   static String user_icon_square = "$iconPath/user_icon_square.png";
   static String user_icon_rounded = "$iconPath/user_icon_rounded.png";
   static String splashBgMain = "$backgroundPath/splash_bg.png";

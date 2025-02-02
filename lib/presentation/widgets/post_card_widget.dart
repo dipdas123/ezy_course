@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ezycourse/core/entities/feed.dart';
 import 'package:ezycourse/presentation/viewmodels/feed_viewmodel.dart';
 import 'package:ezycourse/presentation/widgets/comment_bottom_sheet_widget.dart';
@@ -72,9 +73,15 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                           width: getProportionateScreenWidth(30),
                         )
                             :
-                        CircleAvatar(
-                          radius: 20,
-                          backgroundImage: NetworkImage(feed?.user?.profilePic ?? ""),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: SizedBox(
+                              height: getProportionateScreenHeight(35),
+                              width: getProportionateScreenWidth(35),
+                              child: CachedNetworkImage(imageUrl: feed?.user?.profilePic ?? "",
+                                fit: BoxFit.contain,
+                              ),
+                          ),
                         ),
 
                         const SizedBox(width: 10),
@@ -165,7 +172,7 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                             borderRadius: BorderRadius.circular(15),
                           ),
                           clipBehavior: Clip.antiAlias,
-                          child: Image.network((feed?.files ?? []).isNotEmpty ? (feed?.files?[0].fileLoc ?? "") : "", fit: BoxFit.contain,),
+                          child: CachedNetworkImage(imageUrl: (feed?.files ?? []).isNotEmpty ? (feed?.files?[0].fileLoc ?? "") : "", fit: BoxFit.contain,),
                         ),
                       ],
                     ) : const SizedBox(),
@@ -187,7 +194,7 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                               child: Image.asset(height: getProportionateScreenHeight(15), width: getProportionateScreenWidth(15), AssetConfig.comment_icon),
                             ),
 
-                            Text(feed?.commentCount == 0 ? StringConfig.noCommentsYet : "${feed?.commentCount ?? 0} ${StringConfig.comments}",
+                            Text((feed?.commentCount ?? 0) == 0 ? StringConfig.noCommentsYet : "${feed?.commentCount ?? 0} ${StringConfig.comments}",
                               style: TextStyle(fontSize: 14, color: Colors.grey[700]),
                             ),
                           ],

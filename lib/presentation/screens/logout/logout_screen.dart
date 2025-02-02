@@ -52,12 +52,6 @@ class _LogoutState extends ConsumerState<LogoutScreen>{
                     btnText: StringConfig.logout,
                     onPressed: () async {
                       provider.logout();
-                      DatabaseHelper dbHelper = DatabaseHelper();
-                      dbHelper.clearDatabase();
-                      // List<Feed> feeds = await dbHelper.getFeeds();
-                      // for (var feed in feeds) {
-                      //   print(feed.feedTxt);
-                      // }
                     },
                   ),
                 ),

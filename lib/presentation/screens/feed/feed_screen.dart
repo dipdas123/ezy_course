@@ -8,7 +8,10 @@ import 'package:ezycourse/utils/style_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
+import '../../../utils/app_constants.dart';
+import '../../../utils/app_logs.dart';
 import '../../../utils/color_constants.dart';
+import '../../../utils/internet_connectivity.dart';
 import '../../widgets/FbReactionBox.dart';
 import '../../widgets/post_card_widget.dart';
 import '../../widgets/common_widgets.dart';
@@ -21,11 +24,25 @@ class FeedScreen extends ConsumerStatefulWidget {
 }
 
 class _FeedScreenState extends ConsumerState<FeedScreen> {
-  var enablePostButton = false;
 
   @override
   void initState() {
     super.initState();
+    Future.microtask(() {
+      if (!mounted) return;
+      InternetConnectivity().checkInternetConnection((bool isConnected) {
+        if (!mounted) return;
+        AppLogs.infoLog("isConnectedFeed :: $isConnected");
+        final provider = ref.read(feedViewModelProvider.notifier);
+        provider.isInternetConnected = isConnected;
+
+        if (isConnected) {
+          provider.getFeed();
+        } else {
+          provider.getOfflineFeed();
+        }
+      });
+    });
   }
 
   @override
@@ -47,12 +64,54 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                 ],
               ),
               actions: [
-                IconButton(
-                  icon: Icon(provider.isLoadingFeeds ? Icons.download_for_offline_rounded : Icons.restart_alt, color: ColorConfig.whiteColor,),
-                  onPressed: () {
-                    provider.notify();
-                    ref.read(feedViewModelProvider.notifier).getFeed();
-                  },
+                provider.isInternetConnected
+                    ?
+                Container(
+                  height: getProportionateScreenHeight(35),
+                  width: getProportionateScreenWidth(65),
+                  margin: const EdgeInsets.only(right: 10),
+                  decoration: BoxDecoration(
+                    color: ColorConfig.greenColor.withOpacity(0.65),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: InkWell(
+                    splashColor: ColorConfig.primaryColor,
+                    onTap: () {
+                      provider.isInternetConnected = true;
+                      provider.notify();
+                      ref.read(feedViewModelProvider.notifier).getFeed();
+                    },
+                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("Online", style: textSize12w600.copyWith(color: ColorConfig.whiteColor),),
+                        const Icon(Icons.refresh_rounded, color: ColorConfig.whiteColor, size: 20,),
+                      ],
+                    ),
+                  ),
+                )
+                    :
+                Container(
+                  height: getProportionateScreenHeight(35),
+                  width: getProportionateScreenWidth(65),
+                  margin: const EdgeInsets.only(right: 10),
+                  decoration: BoxDecoration(
+                    color: ColorConfig.whiteColor.withOpacity(0.25),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child:  InkWell(
+                    splashColor: ColorConfig.primaryColor,
+                    onTap: () {
+                      provider.isInternetConnected = false;
+                      provider.notify();
+                      ref.read(feedViewModelProvider.notifier).getOfflineFeed();
+                    },
+                    child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Text("Offline", style: textSize12w600.copyWith(color: ColorConfig.whiteColor),),
+                        const Icon(Icons.do_not_disturb_alt_rounded, color: ColorConfig.whiteColor, size: 20,),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -65,8 +124,12 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                 :
             RefreshIndicator(
               onRefresh: () async {
+                if (provider.isInternetConnected) {
+                  ref.read(feedViewModelProvider.notifier).getFeed();
+                } else {
+                  ref.read(feedViewModelProvider.notifier).getOfflineFeed();
+                }
                 provider.notify();
-                ref.read(feedViewModelProvider.notifier).getFeed();
               },
               child: Column(
                 children: [
@@ -92,7 +155,7 @@ class _FeedScreenState extends ConsumerState<FeedScreen> {
                             children: [
                               CircleAvatar(
                                 radius: 35,
-                                backgroundImage: AssetImage(AssetConfig.user_icon_square),
+                                backgroundImage: AssetImage(AssetConfig.user2),
                               ),
           
                               const SizedBox(width: 10),

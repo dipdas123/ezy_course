@@ -1,5 +1,10 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
+import 'package:ezycourse/main.dart';
+import 'package:ezycourse/utils/color_constants.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -31,7 +36,7 @@ class DatabaseHelper {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE Feed(
+    CREATE TABLE IF NOT EXISTS Feed(
         id INTEGER PRIMARY KEY,
         school_id INTEGER,
         user_id INTEGER,
@@ -53,15 +58,18 @@ class DatabaseHelper {
         name TEXT,
         likeType TEXT,
         follow TEXT,
-        like TEXT,
-        comments TEXT,
+        like TEXT
       )
     ''');
   }
 
-  Future<void> clearDatabase() async {
+  Future<void> resetDatabase() async {
     Database db = await database;
-    await db.delete('Feed');
+    await db.execute('DROP TABLE IF EXISTS Feed');
+    Get.snackbar("Database", "Database cleared successfully",
+        backgroundColor: ColorConfig.greenColor, colorText: ColorConfig.whiteColor, snackPosition: SnackPosition.BOTTOM,
+      );
+    await _onCreate(db, 1);
   }
 
   Future<int> insertFeed(Feed feed) async {
@@ -73,11 +81,11 @@ class DatabaseHelper {
     Database db = await database;
     List<Map<String, dynamic>> maps = await db.query('Feed');
 
-    return maps.map((map) {
+    var feeds = maps.map((map) {
       Map<String, dynamic> updatedMap = Map.from(map);
 
-      if (updatedMap['likeType'] is String) {
-        updatedMap['likeType'] = jsonDecode(updatedMap['likeType']);
+      if (updatedMap['likeType'] is Uint8List) {
+        updatedMap['likeType'] = jsonDecode(utf8.decode(updatedMap['likeType']));
       }
       if (updatedMap['like'] is String) {
         updatedMap['like'] = jsonDecode(updatedMap['like']);
@@ -85,6 +93,9 @@ class DatabaseHelper {
 
       return Feed.fromJson(updatedMap);
     }).toList();
+
+    feeds.sort((a, b) => DateTime.parse(b.publishDate ?? "").compareTo(DateTime.parse(a.publishDate ?? "")));
+    return feeds;
   }
 
 }

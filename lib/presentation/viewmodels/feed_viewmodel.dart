@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 import 'package:ezycourse/core/entities/create_comment_or_reply_body.dart';
 import 'package:ezycourse/core/entities/create_update_reaction_body.dart';
 import 'package:ezycourse/infrastructure/datasources/local/PrefUtils.dart';
@@ -7,6 +8,7 @@ import 'package:ezycourse/utils/asset_constants.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
 import 'package:get/route_manager.dart';
 import 'package:sqflite/sqflite.dart';
@@ -20,9 +22,10 @@ import '../../core/entities/feed.dart';
 import '../../core/usecases/post_usecases.dart';
 import '../../infrastructure/datasources/local/database.dart';
 import '../../providers/feed/feed_provider.dart';
+import '../../utils/app_logs.dart';
 import '../../utils/color_constants.dart';
+import '../../utils/internet_connectivity.dart';
 import '../../utils/style_utils.dart';
-import '../../utils/utils.dart';
 
 final feedViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
   final feedUseCases = ref.read(feedUseCasesProvider);
@@ -32,7 +35,7 @@ final feedViewModelProvider = ChangeNotifierProvider.autoDispose((ref) {
 class FeedViewModel extends ChangeNotifier {
   final FeedUseCases feedUseCases;
   FeedViewModel(this.feedUseCases) {
-    checkInternet();
+    onInIt();
     scrollController.addListener(scrollListener);
   }
 
@@ -72,11 +75,36 @@ class FeedViewModel extends ChangeNotifier {
   int selectedReactingItemsID = 0;
   int selectedCommentID = 0;
   var commentOrReplyText = "";
+  var isInternetConnected = true;
 
 
 
+  onInIt() {
+    checkInternet();
+  }
 
+  checkInternet() async {
+    await Future.delayed(const Duration(microseconds: 300));
+    if (await InternetConnectivity().isInternetAvailable()) {
+      getFeed();
+    } else {
+      getOfflineFeed();
+    }
+    notify();
+  }
 
+  void getOfflineFeed() async {
+    isLoadingFeeds = true;
+    notify();
+
+    feedList.clear();
+    var list = await dbHelper.getFeeds();
+    feedList.addAll(list);
+
+    printInfo(info: "getFeedsFromSqfLite :: ${jsonEncode(feedList)}");
+    isLoadingFeeds = false;
+    notify();
+  }
 
   LinearGradient? getGradient(String? bgColor) {
     if (bgColor == null || bgColor.isEmpty) return null;
@@ -218,10 +246,12 @@ class FeedViewModel extends ChangeNotifier {
         'space_id': feed.spaceId,
         'publish_date': feed.publishDate,
         'name': feed.name,
-        'likeType': jsonEncode((feed.likeTypeList ?? []).map((e) => e.toJson()).toList()),
+        // 'likeType': jsonEncode((feed.likeTypeList ?? []).map((e) => e.toJson()).toList()),
+        'likeType': Uint8List.fromList(utf8.encode(jsonEncode((feed.likeTypeList ?? []).map((e) => e.toJson()).toList()))),
         'follow': feed.follow,
         'like': jsonEncode(feed.like?.toJson()),
-        'comments': feed.comments,
+        // 'comments': feed.comments ?? [],
+        // 'comments': "[]",
       },
       conflictAlgorithm: ConflictAlgorithm.replace,
     );
@@ -353,8 +383,11 @@ class FeedViewModel extends ChangeNotifier {
     isLoadingLogout = false;
 
     if ((response["msg"] ?? "").isNotEmpty) {
+      bottomNavIndex = 0;
       Get.snackbar("Logout", "${response["msg"] ?? ""}", snackPosition: SnackPosition.BOTTOM, colorText: ColorConfig.whiteColor, backgroundColor: ColorConfig.greenColor);
       PrefUtils.clearSharedPreferences();
+      DatabaseHelper dbHelper = DatabaseHelper();
+      dbHelper.resetDatabase();
       Get.offAll(()=> LoginScreen());
     } else {
       Get.snackbar("Failed!", "Logout failed, please try again.", snackPosition: SnackPosition.BOTTOM, colorText: ColorConfig.whiteColor, backgroundColor: ColorConfig.redColor);
@@ -382,20 +415,6 @@ class FeedViewModel extends ChangeNotifier {
 
   void notify() {
     notifyListeners();
-  }
-
-  void checkInternet() async {
-    if (await checkConnection()) {
-      getFeed();
-    } else {
-      getOfflineFeed();
-    }
-  }
-
-  void getOfflineFeed() async {
-    var list = await dbHelper.getFeeds();
-    feedList.addAll(list);
-    notify();
   }
 
 }

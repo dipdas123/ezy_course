@@ -77,7 +77,7 @@ class _CreatePostScreen extends ConsumerState<CreatePostScreen> {
                     children: [
                       CircleAvatar(
                         radius: 25,
-                        backgroundImage: AssetImage(AssetConfig.user_icon_rounded),
+                        backgroundImage: AssetImage(AssetConfig.user2),
                       ),
 
                       const SizedBox(width: 12),
