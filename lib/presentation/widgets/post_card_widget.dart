@@ -89,7 +89,31 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(feed?.user?.fullName ?? "", style: const TextStyle(fontWeight: FontWeight.bold)),
-                            Text(DateTime.parse(feed?.publishDate ?? "").timeAgo ?? "", style: const TextStyle(color: Colors.grey)),
+
+                            const SizedBox(height: 2.5),
+                            Row(
+                              children: [
+                                Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    color: ColorConfig.greyColor.withOpacity(0.20),
+                                    borderRadius: BorderRadius.circular(12),
+                                  ),
+                                  child: Row(
+                                    children: [
+                                      const Icon(Icons.public, size: 14),
+                                      const SizedBox(width: 4),
+                                      Text(feed?.feedPrivacy ?? "", style: textSize10,),
+                                    ],
+                                  ),
+                                ),
+
+                                const SizedBox(width: 5),
+                                Text(DateTime.parse(feed?.publishDate ?? "").timeAgo ?? "",
+                                    style: const TextStyle(color: ColorConfig.greyColor),
+                                ),
+                              ],
+                            ),
                           ],
                         ),
                       ],
