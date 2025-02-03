@@ -38,11 +38,10 @@ class _PostCardWidget extends ConsumerState<PostCardWidget> {
 
       return ListView.builder(
         controller: provider.scrollController,
-        physics: const BouncingScrollPhysics(),
+        // physics: const BouncingScrollPhysics(),
         itemCount: provider.feedList.length + (ref.watch(feedViewModelProvider.notifier).isLoadingMoreFeeds ? 1 : 0),
         itemBuilder: (context, index) {
           if (index == provider.feedList.length) {
-            // Loading more data indicator
             return Padding(
               padding: const EdgeInsets.all(8.0),
               child: getLoader(),

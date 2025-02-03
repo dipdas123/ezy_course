@@ -158,8 +158,8 @@ class LoginScreen extends ConsumerWidget {
                     if (authState.hasError) Text(authState.error.toString(), style: const TextStyle(color: Colors.red)) else SizedBox(),
                     if ((authState.value ?? "").isNotEmpty)
                       Center(child: Text('Logged in successfully!', style: TextStyle(color: ColorConfig.whiteColor),))
-                    else
-                      Center(child: Text('Login Failed!', style: TextStyle(color: ColorConfig.whiteColor),)),
+                    // else
+                    //   Center(child: Text('Login Failed!', style: TextStyle(color: ColorConfig.whiteColor),)),
 
                   ],
                 ),
